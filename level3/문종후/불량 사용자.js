@@ -1,64 +1,31 @@
-// function solution(user_id, banned_id) {
-
-//   let types = [];
-
-//   for (let i = 0; i < banned_id.length; i++) {
-
-//     let 기준 = banned_id[i];
-
-//     let type = 0;
-
-//     for (let j = 0; j < user_id.length; j++) {
-
-//       type += comparestring(user_id[j], 기준);
-
-//     }
-
-//     types.push(type);
-
-//   }
-
-//   return types;
-
-// }
-
-// function comparestring(string1, string2) {
-
-//   if (string1.length !== string2.length) {
-
-//     return 0;
-
-//   }
-
-//   let n = string1.length;
-
-//   let flag = true;
-
-//   for (let i = 0; i < n; i++) {
-
-//     if (string1[i] !== string2[i] && string2[i] !== "*") {
-
-//       flag = false;
-
-//     }
-
-//   }
-
-//   return flag ? 1 : 0;
-
-// }
-
-// console.log(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"], ["fr*d*", "*rodo", "******", "******"]));
-
 function solution(user_id, banned_id) {
   let answer = 0;
-  let visited = [];
   let set = new Set();
-  function DFS(x, v, string) {}
+
+  function DFS(bannedIndex, selectedUsers, selectedUserIds) {
+    if (bannedIndex === banned_id.length) {
+      let sortedUserIds = selectedUserIds.split(" ").slice(1).sort().join("");
+      set.add(sortedUserIds);
+      return;
+    }
+
+    for (let i = 0; i < user_id.length; i++) {
+      if (selectedUsers[i] || banned_id[bannedIndex].length !== user_id[i].length) continue;
+      if (!compareString(banned_id[bannedIndex], user_id[i])) continue;
+
+      selectedUsers[i] = true;
+      DFS(bannedIndex + 1, selectedUsers, selectedUserIds + " " + user_id[i]);
+      selectedUsers[i] = false;
+    }
+  }
+
+  DFS(0, Array(user_id.length).fill(false), "");
+  console.log(set);
+
+  return set.size;
 }
 
-function comparestring(string1, string2) {
-  if (string1.length !== string2.length) return false;
+function compareString(string1, string2) {
   for (let i = 0; i < string1.length; i++) {
     if (string1[i] !== "*" && string1[i] !== string2[i]) {
       return false;
@@ -66,3 +33,5 @@ function comparestring(string1, string2) {
   }
   return true;
 }
+
+solution(["frodo", "fradi", "crodo", "abc123", "frodoc"], ["fr*d*", "*rodo", "******", "******"]);
