@@ -9,10 +9,13 @@ function solution(genres, plays) {
       hash.set(genres[i], [[i, plays[i]]]);
     }
   }
+
   //장르별 재생횟수
   let total = [];
+  //[ 'classic', [ [ 0, 500 ], [ 2, 150 ], [ 3, 800 ] ] ]
   for (const x of hash) {
     let key = x[0];
+
     let song = x[1].length;
     let sum = 0;
     for (let i = 0; i < song; i++) {
@@ -24,6 +27,7 @@ function solution(genres, plays) {
   let answer = [];
   //재생횟수에따라 내림차순정렬
   total.sort((a, b) => b[1] - a[1]);
+  console.log(total);
 
   for (let i = 0; i < total.length; i++) {
     //해당장르노래가 2개이상이면, 재생횟수에따라 내림차순정렬 후 2개선정
@@ -36,3 +40,5 @@ function solution(genres, plays) {
   }
   return answer;
 }
+
+console.log(solution(["classic", "pop", "classic", "classic", "pop"], [500, 600, 150, 800, 2500]));
