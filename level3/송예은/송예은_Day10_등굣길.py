@@ -13,7 +13,7 @@ def solution(m, n, puddles):
         count[puddle[1]-1][puddle[0]-1] = -1
     
     for i in range(0, n):
-        for j in range(0, m):   
+        for j in range(0, m):
             if count[i][j] == -1 or count[i][j] != 0 :
                 continue
             
