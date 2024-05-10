@@ -1,5 +1,5 @@
 /*
-테스트 1,2,3,6,12만 통과하고 나머지 실패 ■■■■■
+테스트 25번 실패 ■■■■■ (마지막 console.log 기대값 3000)
 https://school.programmers.co.kr/learn/courses/30/lessons/67259
 
 1. 문제분석
@@ -14,7 +14,7 @@ https://school.programmers.co.kr/learn/courses/30/lessons/67259
 문제 설명으로 갈음
 
 3. 슈도코드
-상하좌우
+상하좌우 
 */
 
 const DIRECTION: [0 | 1 | -1, 0 | 1 | -1][] = [
@@ -24,81 +24,79 @@ const DIRECTION: [0 | 1 | -1, 0 | 1 | -1][] = [
   [0, 1],
 ];
 type Direction = "W" | "H" | "";
-type Count = number;
+type Cost = number;
 const solution = (maps: number[][]): number => {
-  const queue: [number, number, Direction, Count][] = [[0, 0, "", 0]];
+  const queue: [number, number, Direction, Cost][] = [[0, 0, "", 0]];
+  const length = maps.length;
+  const costs: number[][] = Array.from({ length }, (v, i) =>
+    Array.from({ length }, (v, i) => Number.MAX_SAFE_INTEGER)
+  );
   let first = 0;
   maps[0][0] = 1;
 
   while (first < queue.length) {
     const [x, y, direction, sum] = queue[first++];
-    if (x === maps.length - 1 && y === maps[0].length - 1) {
-      return sum;
-    }
-
-    const moves: [number, number, Direction][] = [];
     for (const [_x, _y] of DIRECTION) {
-      if (maps[x + _x]?.[y + _y] === 0) {
-        const move_x = x + _x;
-        const move_y = y + _y;
-        const move_direction = _x === 0 ? "H" : _y === 0 ? "W" : "";
-        moves.push([move_x, move_y, move_direction]);
+      const move_x = x + _x;
+      const move_y = y + _y;
+      const move_direction = _x === 0 ? "H" : _y === 0 ? "W" : "";
+      const move_sum =
+        sum + (direction === move_direction || direction === "" ? 100 : 600);
+      if (maps[move_x]?.[move_y] === 0 && costs[move_x]?.[move_y] >= move_sum) {
+        costs[move_x][move_y] = move_sum;
+        queue.push([move_x, move_y, move_direction, move_sum]);
       }
-    }
-
-    const straights = moves.filter(
-      (move) => direction === move[2] || direction === ""
-    );
-    if (straights.length) {
-      straights.forEach(([move_x, move_y, move_direction]) => {
-        maps[move_x][move_y] = 1;
-        queue.push([move_x, move_y, move_direction, sum + 100]);
-      });
-    } else {
-      moves.forEach(([move_x, move_y, move_direction]) => {
-        maps[move_x][move_y] = 1;
-        queue.push([move_x, move_y, move_direction, sum + 600]);
-      });
     }
   }
 
-  return -1;
+  console.log(costs);
+
+  return costs[length - 1][length - 1];
 };
 
+// console.log(
+//   solution([
+//     [0, 0, 0],
+//     [0, 0, 0],
+//     [0, 0, 0],
+//   ])
+// );
+// console.log(
+//   solution([
+//     [0, 0, 0, 0, 0, 0, 0, 1],
+//     [0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 1, 0, 0],
+//     [0, 0, 0, 0, 1, 0, 0, 0],
+//     [0, 0, 0, 1, 0, 0, 0, 1],
+//     [0, 0, 1, 0, 0, 0, 1, 0],
+//     [0, 1, 0, 0, 0, 1, 0, 0],
+//     [1, 0, 0, 0, 0, 0, 0, 0],
+//   ])
+// );
+// console.log(
+//   solution([
+//     [0, 0, 1, 0],
+//     [0, 0, 0, 0],
+//     [0, 1, 0, 1],
+//     [1, 0, 0, 0],
+//   ])
+// );
+// console.log(
+//   solution([
+//     [0, 0, 0, 0, 0, 0],
+//     [0, 1, 1, 1, 1, 0],
+//     [0, 0, 1, 0, 0, 0],
+//     [1, 0, 0, 1, 0, 1],
+//     [0, 1, 0, 0, 0, 1],
+//     [0, 0, 0, 0, 0, 0],
+//   ])
+// );
 console.log(
   solution([
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-  ])
-);
-console.log(
-  solution([
-    [0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 1],
-    [0, 0, 1, 0, 0, 0, 1, 0],
-    [0, 1, 0, 0, 0, 1, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0],
-  ])
-);
-console.log(
-  solution([
-    [0, 0, 1, 0],
-    [0, 0, 0, 0],
-    [0, 1, 0, 1],
-    [1, 0, 0, 0],
-  ])
-);
-console.log(
-  solution([
-    [0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 0],
-    [0, 0, 1, 0, 0, 0],
-    [1, 0, 0, 1, 0, 1],
-    [0, 1, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 1, 0, 0],
+    [1, 0, 0, 0, 1],
+    [1, 1, 1, 0, 0],
   ])
 );
