@@ -1,6 +1,7 @@
 //DFS 문제?
 function solution(tickets) {
   tickets.sort();
+  console.log(tickets);
   let n = tickets.length;
   let visited = Array.from({ length: n }, () => false);
   let answer = [];
@@ -14,6 +15,7 @@ function solution(tickets) {
       if (tickets[i][0] === cur) {
         visited[i] = true;
         DFS(tickets[i][1], cnt + 1, [...path, tickets[i][1]]);
+        visited[i] = false;
       }
     }
   }
