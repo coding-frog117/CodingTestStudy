@@ -16,6 +16,8 @@ function solution(enroll, referral, seller, amount) {
   return enroll.map((member) => members.get(member).profit);
 }
 
+//재귀적으로 구현합니다.
+
 console.log(
   solution(
     ["john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young"],
