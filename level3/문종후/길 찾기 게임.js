@@ -5,7 +5,7 @@
 //root가 바뀌니까 재귀형태로구현 dfs?
 
 function solution(nodeinfo) {
-  var answer = [[]];
+  var answer = [];
   for (let i = 0; i < nodeinfo.length; i++) {
     nodeinfo[i].push(i + 1);
   }
@@ -18,7 +18,7 @@ function solution(nodeinfo) {
   });
   let pre = [];
   let post = [];
-  function dfs(info, preorder) {
+  function dfs(info, preorder, postorder) {
     if (info.length === 0) {
       return;
     }
@@ -33,13 +33,14 @@ function solution(nodeinfo) {
         right.push(info[i]);
       }
     }
-    dfs(left, preorder);
-    dfs(right, preorder);
+    dfs(left, preorder, postorder);
+    dfs(right, preorder, postorder);
+    postorder.push(info[current][2]);
   }
 
-  dfs(nodeinfo, pre);
-  console.log(pre);
-  //   console.log(pre, post);
+  dfs(nodeinfo, pre, post);
+  answer.push(pre, post);
+  return answer;
 }
 
 console.log(
