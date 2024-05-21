@@ -1,16 +1,11 @@
 N = int(input())
-arr = []
+ans =[]
 topStack =[]
 currStack =[]
-ans = []
 
-for i in range(1,N+1):
-    num = int(input())
-    ans.append(num)
+arr = list(map(int,input().split()))
 
 for idx in range(len(arr)):
-  print(topStack)
-  print(currStack)
   if len(topStack) == 0 and len(currStack) == 0:
     ans.append(0)
     topStack.append([arr[idx],idx+1])
@@ -25,8 +20,8 @@ for idx in range(len(arr)):
     currStack.append([arr[idx], idx + 1])
 
   elif arr[idx] > topStack[-1][0] :
-    ans.append(idx+1)
+    ans.append(0)
     topStack.append([arr[idx],idx+1])
+    currStack.append([arr[idx], idx + 1])
 
-
-print(ans)
+print(' '.join(map(str,ans)))
