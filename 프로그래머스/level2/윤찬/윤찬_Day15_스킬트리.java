@@ -1,8 +1,8 @@
 package Programmers.lv2;
 
 public class 윤찬_Day15_스킬트리 {
-    class Solution {
-        public int solution(String skill, String[] skill_trees) {
+  class Solution {
+    public int solution(String skill, String[] skill_trees) {
             int answer = 0;
 
             boolean[] check;
@@ -12,7 +12,7 @@ public class 윤찬_Day15_스킬트리 {
                 boolean available = true;
 
                 for(char s: skill_tree.toCharArray()){
-                    if(skill.contains(String.valueOf(s))){
+                    if(skill.contains(String.valueOf(s)))
                         for(int i = 0; i < skill.indexOf(s); i++) {
                             if(!check[c[i] - 'A']) {
                                 available = false;
@@ -28,10 +28,8 @@ public class 윤찬_Day15_스킬트리 {
                     answer++;
                 }
 
-
             }
 
-            return answer;
-        }
-    }
+    return answer;
+  }
 }
