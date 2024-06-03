@@ -28,9 +28,8 @@ public class 윤찬_Day15_스킬트리 {
                     answer++;
                 }
 
-
             }
 
     return answer;
   }
-}}
+}
